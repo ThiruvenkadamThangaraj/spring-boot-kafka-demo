@@ -13,15 +13,27 @@
 	</parent>
 
 	<groupId>com.example</groupId>
-	<artifactId>demo</artifactId>
+	<artifactId>demo-parent</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>demo</name>
+	<packaging>pom</packaging>
+	<name>demo-parent</name>
+	<description>Parent project for microservices</description>
+
+	<modules>
+		<module>evaluation-service</module>
+		<module>sampling-service</module>
+		<module>evidence-service</module>
+		<module>remediation-service</module>
+		<module>jira-service</module>
+		<module>common</module>
+	</modules>
 
 	<properties>
 		<java.version>17</java.version>
 	</properties>
 
-	<dependencies>
+	<dependencyManagement>
+		<dependencies>
 
 		<!-- Web MVC -->
 		<dependency>
@@ -112,7 +124,8 @@
 			<artifactId>spring-kafka</artifactId>
 		</dependency>
 
-	</dependencies>
+		</dependencies>
+	</dependencyManagement>
 
 	<build>
 		<plugins>

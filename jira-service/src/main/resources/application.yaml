@@ -1,0 +1,36 @@
+spring:
+  application:
+    name: jira-service
+  
+  # Database Configuration
+  datasource:
+    url: jdbc:h2:mem:jiradb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+server:
+  port: 8085
+
+# Jira API Configuration (customize these)
+jira:
+  base-url: https://your-jira-instance.atlassian.net
+  api-token: ${JIRA_API_TOKEN:your-api-token}
+  username: ${JIRA_USERNAME:your-email@example.com}
+
+# Swagger Configuration
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html

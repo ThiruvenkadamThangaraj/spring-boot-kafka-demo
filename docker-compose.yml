@@ -1,0 +1,97 @@
+version: '3.8'
+
+services:
+  evaluation-service:
+    build:
+      context: ./evaluation-service
+      dockerfile: Dockerfile
+    container_name: evaluation-service
+    ports:
+      - "8081:8081"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - microservices-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8081/api/evaluations/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  sampling-service:
+    build:
+      context: ./sampling-service
+      dockerfile: Dockerfile
+    container_name: sampling-service
+    ports:
+      - "8082:8082"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - microservices-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8082/api/sampling/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  evidence-service:
+    build:
+      context: ./evidence-service
+      dockerfile: Dockerfile
+    container_name: evidence-service
+    ports:
+      - "8083:8083"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - microservices-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8083/api/evidence/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  remediation-service:
+    build:
+      context: ./remediation-service
+      dockerfile: Dockerfile
+    container_name: remediation-service
+    ports:
+      - "8084:8084"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - microservices-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8084/api/remediation/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  jira-service:
+    build:
+      context: ./jira-service
+      dockerfile: Dockerfile
+    container_name: jira-service
+    ports:
+      - "8085:8085"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - JIRA_BASE_URL=https://your-jira-instance.atlassian.net
+    networks:
+      - microservices-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8085/api/jira/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+networks:
+  microservices-network:
+    driver: bridge
