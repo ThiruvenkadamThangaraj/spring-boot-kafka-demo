@@ -42,6 +42,9 @@ public class User {
     @Column(name = "phone_number")
     private String phoneNumber;
 
+    @Column(name = "department")
+    private String department;
+
     @Column(name = "is_active")
     private Boolean isActive = true;
 

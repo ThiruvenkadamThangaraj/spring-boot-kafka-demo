@@ -13,17 +13,18 @@ public class ApiResponse<T> {
     private boolean success;
     private String message;
     private T data;
+    private String apiVersion;
     private LocalDateTime timestamp;
 
     public static <T> ApiResponse<T> success(T data) {
-        return new ApiResponse<>(true, "Operation successful", data, LocalDateTime.now());
+        return new ApiResponse<>(true, "Operation successful", data, ApiVersionHolder.getVersion(), LocalDateTime.now());
     }
 
     public static <T> ApiResponse<T> success(String message, T data) {
-        return new ApiResponse<>(true, message, data, LocalDateTime.now());
+        return new ApiResponse<>(true, message, data, ApiVersionHolder.getVersion(), LocalDateTime.now());
     }
 
     public static <T> ApiResponse<T> error(String message) {
-        return new ApiResponse<>(false, message, null, LocalDateTime.now());
+        return new ApiResponse<>(false, message, null, ApiVersionHolder.getVersion(), LocalDateTime.now());
     }
 }

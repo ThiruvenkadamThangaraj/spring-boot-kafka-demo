@@ -32,6 +32,8 @@ public class UserDTO {
 
     private String phoneNumber;
 
+    private String department;
+
     private Boolean isActive;
 
     private LocalDateTime createdAt;
