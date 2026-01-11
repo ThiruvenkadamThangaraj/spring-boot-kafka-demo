@@ -3,9 +3,12 @@ package com.example.jira.service;
 import com.example.common.dto.UserCreateRequest;
 import com.example.common.dto.UserDTO;
 import com.example.common.entity.User;
+import com.example.common.event.UserCreatedEvent;
+import com.example.common.service.EventPublisher;
 import com.example.common.util.EntityMapper;
 import com.example.jira.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +21,12 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private EventPublisher eventPublisher;
+
+    @Value("${spring.application.name}")
+    private String serviceName;
 
     public List<UserDTO> getAllUsers() {
         return userRepository.findAll().stream()
@@ -49,6 +58,21 @@ public class UserService {
         user.setIsActive(true);
 
         User savedUser = userRepository.save(user);
+        
+        // Publish Kafka event
+        UserCreatedEvent event = new UserCreatedEvent(
+            savedUser.getId(),
+            savedUser.getUsername(),
+            savedUser.getEmail(),
+            savedUser.getFirstName(),
+            savedUser.getLastName(),
+            savedUser.getDepartment(),
+            savedUser.getSalary(),
+            serviceName,
+            savedUser.getCreatedAt()
+        );
+        eventPublisher.publishUserCreatedEvent(event);
+        
         return EntityMapper.toDTO(savedUser);
     }
 
