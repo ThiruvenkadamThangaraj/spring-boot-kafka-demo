@@ -45,6 +45,9 @@ public class User {
     @Column(name = "department")
     private String department;
 
+    @Column(name = "salary")
+    private Double salary;
+
     @Column(name = "is_active")
     private Boolean isActive = true;
 

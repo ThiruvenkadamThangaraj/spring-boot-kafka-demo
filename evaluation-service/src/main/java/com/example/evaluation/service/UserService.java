@@ -3,6 +3,7 @@ package com.example.evaluation.service;
 import com.example.common.dto.UserCreateRequest;
 import com.example.common.dto.UserDTO;
 import com.example.common.entity.User;
+import com.example.common.util.EntityMapper;
 import com.example.evaluation.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,20 +21,20 @@ public class UserService {
 
     public List<UserDTO> getAllUsers() {
         return userRepository.findAll().stream()
-                .map(this::convertToDTO)
+                .map(EntityMapper::toDTO)
                 .collect(Collectors.toList());
     }
 
     public UserDTO getUserById(Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
-        return convertToDTO(user);
+        return EntityMapper.toDTO(user);
     }
 
     public UserDTO getUserByUsername(String username) {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("User not found with username: " + username));
-        return convertToDTO(user);
+        return EntityMapper.toDTO(user);
     }
 
     public UserDTO createUser(UserCreateRequest request) {
@@ -44,17 +45,11 @@ public class UserService {
             throw new RuntimeException("Email already exists: " + request.getEmail());
         }
 
-        User user = new User();
-        user.setUsername(request.getUsername());
-        user.setEmail(request.getEmail());
-        user.setFirstName(request.getFirstName());
-        user.setLastName(request.getLastName());
-        user.setPhoneNumber(request.getPhoneNumber());
-        user.setDepartment(request.getDepartment());
+        User user = EntityMapper.toEntity(request);
         user.setIsActive(true);
 
         User savedUser = userRepository.save(user);
-        return convertToDTO(savedUser);
+        return EntityMapper.toDTO(savedUser);
     }
 
     public UserDTO updateUser(Long id, UserCreateRequest request) {

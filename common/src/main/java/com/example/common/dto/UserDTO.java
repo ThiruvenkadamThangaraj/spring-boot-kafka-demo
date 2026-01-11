@@ -34,6 +34,8 @@ public class UserDTO {
 
     private String department;
 
+    private Double salary;
+
     private Boolean isActive;
 
     private LocalDateTime createdAt;

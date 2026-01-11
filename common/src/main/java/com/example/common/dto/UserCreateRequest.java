@@ -29,4 +29,6 @@ public class UserCreateRequest {
     private String phoneNumber;
 
     private String department;
+
+    private Double salary;
 }
