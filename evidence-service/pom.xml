@@ -19,6 +19,13 @@
     <description>Microservice for evidence management</description>
 
     <dependencies>
+        <!-- Common module -->
+        <dependency>
+            <groupId>com.example</groupId>
+            <artifactId>common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
         <!-- Spring Boot Web -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
