@@ -19,18 +19,30 @@ spring:
       enabled: true
       path: /h2-console
   
-  # Kafka Configuration
+  # Kafka Configuration (Optimized for High Throughput)
   kafka:
     bootstrap-servers: localhost:9092
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      # High throughput optimizations
+      batch-size: 32768              # 32KB batches
+      linger-ms: 10                  # Wait 10ms to batch messages
+      compression-type: snappy       # Fast compression
+      acks: 1                        # Leader acknowledgment (balance between speed and reliability)
+      buffer-memory: 67108864        # 64MB buffer
     consumer:
       group-id: email-service-group
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      # High throughput optimizations
+      max-poll-records: 500          # Fetch 500 records per poll
+      fetch-min-size: 1048576        # Wait for 1MB before fetching
+      fetch-max-wait: 500            # Or wait max 500ms
       properties:
         spring.json.trusted.packages: "*"
+    listener:
+      concurrency: 3                 # 3 consumer threads per service
 
 server:
   port: 8081
