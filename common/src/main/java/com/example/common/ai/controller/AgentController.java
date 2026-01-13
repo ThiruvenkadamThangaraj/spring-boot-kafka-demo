@@ -4,6 +4,7 @@ import com.example.common.ai.AgentStatus;
 import com.example.common.ai.agents.AnomalyDetectionAgent;
 import com.example.common.ai.agents.JiraIntelligenceAgent;
 import com.example.common.ai.agents.SelfHealingAgent;
+import com.example.common.ai.demo.AgentDemoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +27,9 @@ public class AgentController {
     
     @Autowired(required = false)
     private SelfHealingAgent selfHealingAgent;
+    
+    @Autowired(required = false)
+    private AgentDemoService agentDemoService;
     
     /**
      * Get status of all AI agents
@@ -118,6 +122,20 @@ public class AgentController {
     }
     
     /**
+     * DEMO MODE: Test AI agents without Kafka
+     * This endpoint shows AI agents working synchronously
+     */
+    @PostMapping("/demo")
+    public ResponseEntity<AgentDemoService.AgentDemoResult> demoAgents(@RequestBody AgentDemoService.UserDemoRequest request) {
+        if (agentDemoService == null) {
+            return ResponseEntity.status(503).build();
+        }
+        
+        AgentDemoService.AgentDemoResult result = agentDemoService.demonstrateAgents(request);
+        return ResponseEntity.ok(result);
+    }
+    
+    /**
      * Health check for agent controller
      */
     @GetMapping("/health")
@@ -128,6 +146,7 @@ public class AgentController {
         response.put("anomalyDetection", anomalyDetectionAgent != null ? "ENABLED" : "DISABLED");
         response.put("jiraIntelligence", jiraIntelligenceAgent != null ? "ENABLED" : "DISABLED");
         response.put("selfHealing", selfHealingAgent != null ? "ENABLED" : "DISABLED");
+        response.put("demoMode", agentDemoService != null ? "AVAILABLE" : "UNAVAILABLE");
         return ResponseEntity.ok(response);
     }
     
