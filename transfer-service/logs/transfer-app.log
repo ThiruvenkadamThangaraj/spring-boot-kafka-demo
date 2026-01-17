@@ -1,0 +1,78 @@
+2026-01-14T18:05:58.072-05:00  INFO 8604 --- [main] c.example.transfer.TransferApplication   : Starting TransferApplication using Java 17.0.17 with PID 8604 (C:\Users\thiru_qoss8b1\Downloads\demo\demo\transfer-service\target\transfer-service-0.0.1-SNAPSHOT.jar started by thiru_qoss8b1 in C:\Users\thiru_qoss8b1\Downloads\demo\demo\transfer-service)
+2026-01-14T18:05:58.075-05:00  INFO 8604 --- [main] c.example.transfer.TransferApplication   : No active profile set, falling back to 1 default profile: "default"
+2026-01-14T18:05:59.676-05:00  INFO 8604 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-01-14T18:05:59.693-05:00  INFO 8604 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-01-14T18:05:59.693-05:00  INFO 8604 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.17]
+2026-01-14T18:05:59.749-05:00  INFO 8604 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-01-14T18:05:59.749-05:00  INFO 8604 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1540 ms
+2026-01-14T18:05:59.987-05:00  WARN 8604 --- [main] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'transferController': Unsatisfied dependency expressed through field 'coordinatorService': Error creating bean with name 'coordinatorService' defined in URL [jar:nested:/C:/Users/thiru_qoss8b1/Downloads/demo/demo/transfer-service/target/transfer-service-0.0.1-SNAPSHOT.jar/!BOOT-INF/classes/!/com/example/transfer/service/CoordinatorService.class]: Encountered invalid @Scheduled method 'runDailyTransfer': Cron expression must consist of 6 fields (found 5 in "0 2 * * *")
+2026-01-14T18:05:59.989-05:00  INFO 8604 --- [main] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2026-01-14T18:06:00.038-05:00  INFO 8604 --- [main] .s.b.a.l.ConditionEvaluationReportLogger : 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2026-01-14T18:06:00.070-05:00 ERROR 8604 --- [main] o.s.boot.SpringApplication               : Application run failed
+
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'transferController': Unsatisfied dependency expressed through field 'coordinatorService': Error creating bean with name 'coordinatorService' defined in URL [jar:nested:/C:/Users/thiru_qoss8b1/Downloads/demo/demo/transfer-service/target/transfer-service-0.0.1-SNAPSHOT.jar/!BOOT-INF/classes/!/com/example/transfer/service/CoordinatorService.class]: Encountered invalid @Scheduled method 'runDailyTransfer': Cron expression must consist of 6 fields (found 5 in "0 2 * * *")
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.resolveFieldValue(AutowiredAnnotationBeanPostProcessor.java:787) ~[spring-beans-6.1.2.jar!/:6.1.2]
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:767) ~[spring-beans-6.1.2.jar!/:6.1.2]
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:145) ~[spring-beans-6.1.2.jar!/:6.1.2]
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:508) ~[spring-beans-6.1.2.jar!/:6.1.2]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1418) ~[spring-beans-6.1.2.jar!/:6.1.2]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:598) ~[spring-beans-6.1.2.jar!/:6.1.2]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:521) ~[spring-beans-6.1.2.jar!/:6.1.2]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:325) ~[spring-beans-6.1.2.jar!/:6.1.2]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234) ~[spring-beans-6.1.2.jar!/:6.1.2]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:323) ~[spring-beans-6.1.2.jar!/:6.1.2]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199) ~[spring-beans-6.1.2.jar!/:6.1.2]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:975) ~[spring-beans-6.1.2.jar!/:6.1.2]
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:960) ~[spring-context-6.1.2.jar!/:6.1.2]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:625) ~[spring-context-6.1.2.jar!/:6.1.2]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146) ~[spring-boot-3.2.1.jar!/:3.2.1]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:762) ~[spring-boot-3.2.1.jar!/:3.2.1]
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:464) ~[spring-boot-3.2.1.jar!/:3.2.1]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:334) ~[spring-boot-3.2.1.jar!/:3.2.1]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1358) ~[spring-boot-3.2.1.jar!/:3.2.1]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1347) ~[spring-boot-3.2.1.jar!/:3.2.1]
+	at com.example.transfer.TransferApplication.main(TransferApplication.java:12) ~[!/:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[na:na]
+	at org.springframework.boot.loader.launch.Launcher.launch(Launcher.java:91) ~[transfer-service-0.0.1-SNAPSHOT.jar:0.0.1-SNAPSHOT]
+	at org.springframework.boot.loader.launch.Launcher.launch(Launcher.java:53) ~[transfer-service-0.0.1-SNAPSHOT.jar:0.0.1-SNAPSHOT]
+	at org.springframework.boot.loader.launch.JarLauncher.main(JarLauncher.java:58) ~[transfer-service-0.0.1-SNAPSHOT.jar:0.0.1-SNAPSHOT]
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'coordinatorService' defined in URL [jar:nested:/C:/Users/thiru_qoss8b1/Downloads/demo/demo/transfer-service/target/transfer-service-0.0.1-SNAPSHOT.jar/!BOOT-INF/classes/!/com/example/transfer/service/CoordinatorService.class]: Encountered invalid @Scheduled method 'runDailyTransfer': Cron expression must consist of 6 fields (found 5 in "0 2 * * *")
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:606) ~[spring-beans-6.1.2.jar!/:6.1.2]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:521) ~[spring-beans-6.1.2.jar!/:6.1.2]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:325) ~[spring-beans-6.1.2.jar!/:6.1.2]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234) ~[spring-beans-6.1.2.jar!/:6.1.2]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:323) ~[spring-beans-6.1.2.jar!/:6.1.2]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199) ~[spring-beans-6.1.2.jar!/:6.1.2]
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254) ~[spring-beans-6.1.2.jar!/:6.1.2]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1443) ~[spring-beans-6.1.2.jar!/:6.1.2]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1353) ~[spring-beans-6.1.2.jar!/:6.1.2]
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.resolveFieldValue(AutowiredAnnotationBeanPostProcessor.java:784) ~[spring-beans-6.1.2.jar!/:6.1.2]
+	... 27 common frames omitted
+Caused by: java.lang.IllegalStateException: Encountered invalid @Scheduled method 'runDailyTransfer': Cron expression must consist of 6 fields (found 5 in "0 2 * * *")
+	at org.springframework.scheduling.annotation.ScheduledAnnotationBeanPostProcessor.processScheduledTask(ScheduledAnnotationBeanPostProcessor.java:514) ~[spring-context-6.1.2.jar!/:6.1.2]
+	at org.springframework.scheduling.annotation.ScheduledAnnotationBeanPostProcessor.processScheduledSync(ScheduledAnnotationBeanPostProcessor.java:353) ~[spring-context-6.1.2.jar!/:6.1.2]
+	at org.springframework.scheduling.annotation.ScheduledAnnotationBeanPostProcessor.processScheduled(ScheduledAnnotationBeanPostProcessor.java:332) ~[spring-context-6.1.2.jar!/:6.1.2]
+	at org.springframework.scheduling.annotation.ScheduledAnnotationBeanPostProcessor.lambda$postProcessAfterInitialization$1(ScheduledAnnotationBeanPostProcessor.java:304) ~[spring-context-6.1.2.jar!/:6.1.2]
+	at java.base/java.lang.Iterable.forEach(Iterable.java:75) ~[na:na]
+	at org.springframework.scheduling.annotation.ScheduledAnnotationBeanPostProcessor.lambda$postProcessAfterInitialization$2(ScheduledAnnotationBeanPostProcessor.java:304) ~[spring-context-6.1.2.jar!/:6.1.2]
+	at java.base/java.util.LinkedHashMap.forEach(LinkedHashMap.java:721) ~[na:na]
+	at org.springframework.scheduling.annotation.ScheduledAnnotationBeanPostProcessor.postProcessAfterInitialization(ScheduledAnnotationBeanPostProcessor.java:303) ~[spring-context-6.1.2.jar!/:6.1.2]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.applyBeanPostProcessorsAfterInitialization(AbstractAutowireCapableBeanFactory.java:437) ~[spring-beans-6.1.2.jar!/:6.1.2]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1776) ~[spring-beans-6.1.2.jar!/:6.1.2]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:599) ~[spring-beans-6.1.2.jar!/:6.1.2]
+	... 36 common frames omitted
+
+2026-01-14T18:06:36.734-05:00  INFO 9568 --- [main] c.example.transfer.TransferApplication   : Starting TransferApplication using Java 17.0.17 with PID 9568 (C:\Users\thiru_qoss8b1\Downloads\demo\demo\transfer-service\target\transfer-service-0.0.1-SNAPSHOT.jar started by thiru_qoss8b1 in C:\Users\thiru_qoss8b1\Downloads\demo\demo\transfer-service)
+2026-01-14T18:06:36.737-05:00  INFO 9568 --- [main] c.example.transfer.TransferApplication   : No active profile set, falling back to 1 default profile: "default"
+2026-01-14T18:06:37.985-05:00  INFO 9568 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-01-14T18:06:37.995-05:00  INFO 9568 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-01-14T18:06:37.995-05:00  INFO 9568 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.17]
+2026-01-14T18:06:38.047-05:00  INFO 9568 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-01-14T18:06:38.047-05:00  INFO 9568 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1227 ms
+2026-01-14T18:06:38.806-05:00  INFO 9568 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path ''
+2026-01-14T18:06:38.836-05:00  INFO 9568 --- [main] c.example.transfer.TransferApplication   : Started TransferApplication in 2.731 seconds (process running for 3.264)

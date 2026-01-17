@@ -1,0 +1,120 @@
+# JWT Configuration
+jwt:
+  secret: your-secret-key-change-in-production-minimum-256-bits-required-for-hs256-algorithm-secure-key
+  expiration: 86400000
+  issuer: microservices-app
+
+# Resilience4j Configuration
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        slidingWindowType: COUNT_BASED
+        slidingWindowSize: 10
+        minimumNumberOfCalls: 5
+        failureRateThreshold: 50
+        slowCallRateThreshold: 50
+        slowCallDurationThreshold: 2s
+        waitDurationInOpenState: 10s
+        permittedNumberOfCallsInHalfOpenState: 3
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        recordExceptions:
+          - java.lang.Exception
+        ignoreExceptions:
+          - java.lang.IllegalArgumentException
+    instances:
+      samplingService:
+        baseConfig: default
+        waitDurationInOpenState: 5s
+      evaluationService:
+        baseConfig: default
+        failureRateThreshold: 60
+      evidenceService:
+        baseConfig: default
+      remediationService:
+        baseConfig: default
+      jiraService:
+        baseConfig: default
+        waitDurationInOpenState: 15s
+  
+  retry:
+    configs:
+      default:
+        maxAttempts: 3
+        waitDuration: 500ms
+        retryExceptions:
+          - java.io.IOException
+          - java.util.concurrent.TimeoutException
+        ignoreExceptions:
+          - java.lang.IllegalArgumentException
+          - com.example.common.exception.BusinessException
+    instances:
+      samplingService:
+        baseConfig: default
+        maxAttempts: 3
+        waitDuration: 300ms
+      evaluationService:
+        baseConfig: default
+        maxAttempts: 4
+        waitDuration: 1s
+      evidenceService:
+        baseConfig: default
+      remediationService:
+        baseConfig: default
+      jiraService:
+        baseConfig: default
+        maxAttempts: 5
+        waitDuration: 2s
+  
+  timelimiter:
+    configs:
+      default:
+        timeoutDuration: 3s
+        cancelRunningFuture: true
+    instances:
+      samplingService:
+        timeoutDuration: 2s
+      evaluationService:
+        timeoutDuration: 5s
+      evidenceService:
+        timeoutDuration: 3s
+      remediationService:
+        timeoutDuration: 4s
+      jiraService:
+        timeoutDuration: 10s
+  
+  bulkhead:
+    configs:
+      default:
+        maxConcurrentCalls: 10
+        maxWaitDuration: 1s
+    instances:
+      samplingService:
+        maxConcurrentCalls: 20
+      evaluationService:
+        maxConcurrentCalls: 15
+      evidenceService:
+        maxConcurrentCalls: 10
+      remediationService:
+        maxConcurrentCalls: 10
+      jiraService:
+        maxConcurrentCalls: 5
+
+# Spring Boot Actuator endpoints for Resilience4j metrics
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,circuitbreakers,circuitbreakerevents,retries,retryevents
+  endpoint:
+    health:
+      show-details: always
+  health:
+    circuitbreakers:
+      enabled: true
+
+# Logging
+logging:
+  level:
+    com.example.common.security: DEBUG
+    io.github.resilience4j: DEBUG

@@ -2,11 +2,13 @@ package com.example.demo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import java.util.List;
 import java.util.Optional;
 
 @SpringBootApplication
+@EnableScheduling  // ⭐ Enable @Scheduled support for daily transfer
 public class DemoApplication {
 
 	public static void main(String[] args) {
