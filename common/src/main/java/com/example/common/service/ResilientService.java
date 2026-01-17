@@ -51,7 +51,8 @@ public class ResilientService {
         // Simulate external service call
         if (restTemplate != null) {
             String url = "http://sampling-service:8082/api/samples/" + id;
-            ResponseEntity<Map> response = restTemplate.getForEntity(url, Map.class);
+            @SuppressWarnings("unchecked")
+            ResponseEntity<Map<String, Object>> response = restTemplate.getForEntity(url, (Class<Map<String, Object>>)(Class<?>)Map.class);
             return response.getBody();
         }
         
