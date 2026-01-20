@@ -1,7 +1,7 @@
 package com.example.common.repository;
 
 import com.example.common.entity.User;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
@@ -11,7 +11,7 @@ import java.util.Optional;
  * Can be extended by individual service repositories
  */
 @Repository
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface UserRepository extends MongoRepository<User, String> {
     
     Optional<User> findByUsername(String username);
     

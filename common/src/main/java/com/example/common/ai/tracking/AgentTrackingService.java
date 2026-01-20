@@ -48,7 +48,7 @@ public class AgentTrackingService {
      * Get high-risk decisions
      */
     public List<AgentDecisionRecord> getHighRiskDecisions(double threshold) {
-        return repository.findHighRiskDecisions(threshold);
+        return repository.findByAnomalyScoreGreaterThanEqualOrderByTimestampDesc(threshold);
     }
     
     /**
@@ -82,32 +82,36 @@ public class AgentTrackingService {
         report.setEndDate(decisions.isEmpty() ? null : decisions.get(0).getTimestamp());
         
         // Count by action
-        Map<String, Long> actionCounts = decisions.stream()
-                .collect(Collectors.groupingBy(AgentDecisionRecord::getAction, Collectors.counting()));
+        Map<String, Long> actionCountsLong = decisions.stream()
+            .collect(Collectors.groupingBy(AgentDecisionRecord::getAction, Collectors.counting()));
+        Map<String, Integer> actionCounts = actionCountsLong.entrySet().stream()
+            .collect(Collectors.toMap(Map.Entry::getKey, e -> e.getValue().intValue()));
         report.setActionCounts(actionCounts);
-        
+
         // Count by agent
-        Map<String, Long> agentCounts = decisions.stream()
-                .collect(Collectors.groupingBy(AgentDecisionRecord::getAgentName, Collectors.counting()));
+        Map<String, Long> agentCountsLong = decisions.stream()
+            .collect(Collectors.groupingBy(AgentDecisionRecord::getAgentName, Collectors.counting()));
+        Map<String, Integer> agentCounts = agentCountsLong.entrySet().stream()
+            .collect(Collectors.toMap(Map.Entry::getKey, e -> e.getValue().intValue()));
         report.setAgentCounts(agentCounts);
-        
+
         // Calculate average anomaly score
         double avgScore = decisions.stream()
-                .mapToDouble(AgentDecisionRecord::getAnomalyScore)
-                .average()
-                .orElse(0.0);
+            .mapToDouble(AgentDecisionRecord::getAnomalyScore)
+            .average()
+            .orElse(0.0);
         report.setAverageAnomalyScore(avgScore);
-        
+
         // Count Jira tickets
-        long jiraTickets = decisions.stream()
-                .filter(d -> Boolean.TRUE.equals(d.getJiraTicketCreated()))
-                .count();
+        int jiraTickets = (int) decisions.stream()
+            .filter(d -> Boolean.TRUE.equals(d.getJiraTicketCreated()))
+            .count();
         report.setJiraTicketsCreated(jiraTickets);
-        
+
         // High risk count (score > 0.7)
-        long highRisk = decisions.stream()
-                .filter(d -> d.getAnomalyScore() > 0.7)
-                .count();
+        int highRisk = (int) decisions.stream()
+            .filter(d -> d.getAnomalyScore() > 0.7)
+            .count();
         report.setHighRiskCount(highRisk);
         
         return report;
@@ -120,11 +124,11 @@ public class AgentTrackingService {
         private Integer totalDecisions;
         private LocalDateTime startDate;
         private LocalDateTime endDate;
-        private Map<String, Long> actionCounts;
-        private Map<String, Long> agentCounts;
+        private Map<String, Integer> actionCounts;
+        private Map<String, Integer> agentCounts;
         private Double averageAnomalyScore;
-        private Long jiraTicketsCreated;
-        private Long highRiskCount;
+        private Integer jiraTicketsCreated;
+        private Integer highRiskCount;
         
         // Getters and Setters
         public Integer getTotalDecisions() { return totalDecisions; }
@@ -136,19 +140,19 @@ public class AgentTrackingService {
         public LocalDateTime getEndDate() { return endDate; }
         public void setEndDate(LocalDateTime endDate) { this.endDate = endDate; }
         
-        public Map<String, Long> getActionCounts() { return actionCounts; }
-        public void setActionCounts(Map<String, Long> actionCounts) { this.actionCounts = actionCounts; }
+        public Map<String, Integer> getActionCounts() { return actionCounts; }
+        public void setActionCounts(Map<String, Integer> actionCounts) { this.actionCounts = actionCounts; }
         
-        public Map<String, Long> getAgentCounts() { return agentCounts; }
-        public void setAgentCounts(Map<String, Long> agentCounts) { this.agentCounts = agentCounts; }
+        public Map<String, Integer> getAgentCounts() { return agentCounts; }
+        public void setAgentCounts(Map<String, Integer> agentCounts) { this.agentCounts = agentCounts; }
         
         public Double getAverageAnomalyScore() { return averageAnomalyScore; }
         public void setAverageAnomalyScore(Double averageAnomalyScore) { this.averageAnomalyScore = averageAnomalyScore; }
         
-        public Long getJiraTicketsCreated() { return jiraTicketsCreated; }
-        public void setJiraTicketsCreated(Long jiraTicketsCreated) { this.jiraTicketsCreated = jiraTicketsCreated; }
+        public Integer getJiraTicketsCreated() { return jiraTicketsCreated; }
+        public void setJiraTicketsCreated(Integer jiraTicketsCreated) { this.jiraTicketsCreated = jiraTicketsCreated; }
         
-        public Long getHighRiskCount() { return highRiskCount; }
-        public void setHighRiskCount(Long highRiskCount) { this.highRiskCount = highRiskCount; }
+        public Integer getHighRiskCount() { return highRiskCount; }
+        public void setHighRiskCount(Integer highRiskCount) { this.highRiskCount = highRiskCount; }
     }
 }

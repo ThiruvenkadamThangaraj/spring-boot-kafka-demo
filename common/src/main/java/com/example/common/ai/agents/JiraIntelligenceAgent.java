@@ -2,7 +2,6 @@ package com.example.common.ai.agents;
 
 import com.example.common.ai.AgentDecision;
 import com.example.common.ai.BaseAgent;
-import com.example.common.event.UserCreatedEvent;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;

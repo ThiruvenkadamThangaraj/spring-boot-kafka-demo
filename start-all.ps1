@@ -46,9 +46,15 @@ Write-Host "  Sampling Service:     http://localhost:8082/swagger-ui.html" -Fore
 Write-Host "  Evidence Service:     http://localhost:8083/swagger-ui.html" -ForegroundColor White
 Write-Host "  Remediation Service:  http://localhost:8084/swagger-ui.html" -ForegroundColor White
 Write-Host "  Jira Service:         http://localhost:8085/swagger-ui.html" -ForegroundColor White
+Write-Host "  Audit Service:        http://localhost:8086/api/audit" -ForegroundColor White
+
+Write-Host "`nKafka:" -ForegroundColor Cyan
+Write-Host "  Bootstrap Server:     localhost:9093" -ForegroundColor White
+Write-Host "  Audit Events Topic:   audit-events" -ForegroundColor White
 
 Write-Host "`nUseful Commands:" -ForegroundColor Cyan
 Write-Host "  View logs:       docker-compose logs -f" -ForegroundColor White
 Write-Host "  Stop services:   docker-compose down" -ForegroundColor White
 Write-Host "  Restart:         docker-compose restart" -ForegroundColor White
 Write-Host "  Check status:    docker-compose ps" -ForegroundColor White
+Write-Host "  Test audit:      .\test-audit-service.ps1" -ForegroundColor White

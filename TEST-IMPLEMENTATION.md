@@ -63,7 +63,7 @@ java -jar evaluation-service-0.0.1-SNAPSHOT.jar --server.port=8081
 # Login as admin
 $response = Invoke-RestMethod -Uri "http://localhost:8081/api/auth/login" `
     -Method Post `
-    -Body (@{username='admin';password='admin123'}|ConvertTo-Json) `
+    -Body (@{username='admin';password='*******'}|ConvertTo-Json) `
     -ContentType 'application/json'
 
 $token = $response.token
@@ -146,7 +146,7 @@ try {
 ```powershell
 $response = Invoke-RestMethod -Uri "http://localhost:8081/api/auth/login" `
     -Method Post `
-    -Body (@{username='admin';password='admin123'}|ConvertTo-Json) `
+    -Body (@{username='admin';password='*******'}|ConvertTo-Json) `
     -ContentType 'application/json'
 
 $headers = @{Authorization="Bearer $($response.token)"}
@@ -287,7 +287,7 @@ $detailedHealth.components | ConvertTo-Json -Depth 5
 
 | Username | Password | Roles |
 |----------|----------|-------|
-| admin | admin123 | ADMIN, OPERATOR, REVIEWER, USER |
+| admin | ******* | ADMIN, OPERATOR, REVIEWER, USER |
 | operator | operator123 | OPERATOR, REVIEWER, USER |
 | reviewer | reviewer123 | REVIEWER, USER |
 | user | user123 | USER |

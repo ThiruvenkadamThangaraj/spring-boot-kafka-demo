@@ -7,6 +7,8 @@ import io.github.resilience4j.timelimiter.annotation.TimeLimiter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -45,7 +47,7 @@ public class ResilientService {
      * - HALF_OPEN: Testing if service recovered
      */
     @CircuitBreaker(name = "samplingService", fallbackMethod = "getSamplingDataFallback")
-    public Map<String, Object> getSamplingData(Long id) {
+    public Map<String, Object> getSamplingData(String id) {
         logger.info("Calling Sampling Service for ID: {}", id);
         
         // Simulate external service call
@@ -57,8 +59,13 @@ public class ResilientService {
         }
         
         // Demo: Simulate failure
-        if (id > 100) {
-            throw new RuntimeException("Sampling service unavailable");
+        try {
+            long idNum = Long.parseLong(id);
+            if (idNum > 100) {
+                throw new RuntimeException("Sampling service unavailable");
+            }
+        } catch (NumberFormatException e) {
+            // If not a number, skip failure simulation
         }
         
         Map<String, Object> data = new HashMap<>();
@@ -72,7 +79,7 @@ public class ResilientService {
      * Fallback method for getSamplingData
      * Called when circuit is OPEN or method throws exception
      */
-    private Map<String, Object> getSamplingDataFallback(Long id, Exception ex) {
+    private Map<String, Object> getSamplingDataFallback(String id, Exception ex) {
         logger.warn("Circuit breaker activated for Sampling Service. Using fallback for ID: {}. Error: {}", 
                     id, ex.getMessage());
         
@@ -98,7 +105,7 @@ public class ResilientService {
      * - Exponential backoff: 300ms, 600ms, 1200ms
      */
     @Retry(name = "evaluationService", fallbackMethod = "processEvaluationFallback")
-    public Map<String, Object> processEvaluation(Long evaluationId) {
+    public Map<String, Object> processEvaluation(String evaluationId) {
         logger.info("Processing evaluation ID: {}", evaluationId);
         
         // Simulate transient failure (network glitch)
@@ -114,7 +121,7 @@ public class ResilientService {
         return result;
     }
     
-    private Map<String, Object> processEvaluationFallback(Long evaluationId, Exception ex) {
+    private Map<String, Object> processEvaluationFallback(String evaluationId, Exception ex) {
         logger.error("All retry attempts exhausted for evaluation ID: {}. Error: {}", 
                      evaluationId, ex.getMessage());
         
@@ -139,13 +146,15 @@ public class ResilientService {
      */
     @TimeLimiter(name = "samplingService", fallbackMethod = "getDataWithTimeoutFallback")
     @CircuitBreaker(name = "samplingService")
-    public CompletableFuture<Map<String, Object>> getDataWithTimeout(Long id) {
+    public CompletableFuture<Map<String, Object>> getDataWithTimeout(String id) {
         return CompletableFuture.supplyAsync(() -> {
             logger.info("Fetching data with timeout for ID: {}", id);
             
             try {
                 // Simulate slow operation
-                if (id % 2 == 0) {
+                long idNum = 0;
+                try { idNum = Long.parseLong(id); } catch (NumberFormatException e) {}
+                if (idNum % 2 == 0) {
                     Thread.sleep(3000);  // Will timeout!
                 } else {
                     Thread.sleep(500);   // Fast response
@@ -162,7 +171,7 @@ public class ResilientService {
         });
     }
     
-    private CompletableFuture<Map<String, Object>> getDataWithTimeoutFallback(Long id, TimeoutException ex) {
+    private CompletableFuture<Map<String, Object>> getDataWithTimeoutFallback(String id, TimeoutException ex) {
         logger.warn("Operation timed out for ID: {}. Using fallback.", id);
         
         Map<String, Object> fallback = new HashMap<>();
@@ -235,7 +244,7 @@ public class ResilientService {
     @Bulkhead(name = "evaluationService")
     @CircuitBreaker(name = "evaluationService", fallbackMethod = "complexOperationFallback")
     @Retry(name = "evaluationService")
-    public Map<String, Object> complexOperation(Long id) {
+    public Map<String, Object> complexOperation(String id) {
         logger.info("Executing complex operation for ID: {}", id);
         
         // Simulate various scenarios
@@ -262,7 +271,7 @@ public class ResilientService {
         return result;
     }
     
-    private Map<String, Object> complexOperationFallback(Long id, Exception ex) {
+    private Map<String, Object> complexOperationFallback(String id, Exception ex) {
         logger.error("Complex operation failed for ID: {}. Using fallback. Error: {}", 
                      id, ex.getMessage());
         
@@ -286,7 +295,7 @@ public class ResilientService {
         try {
             if (restTemplate != null) {
                 String url = String.format("http://%s/actuator/health", serviceName);
-                ResponseEntity<Map> response = restTemplate.getForEntity(url, Map.class);
+                ResponseEntity<Map<String, Object>> response = restTemplate.exchange(url, HttpMethod.GET, null, new ParameterizedTypeReference<Map<String, Object>>() {});
                 return response.getStatusCode() == HttpStatus.OK;
             }
             return true;  // Mock: assume healthy

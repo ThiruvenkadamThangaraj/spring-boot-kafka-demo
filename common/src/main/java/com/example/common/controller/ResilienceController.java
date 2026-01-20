@@ -45,7 +45,7 @@ public class ResilienceController {
     @GetMapping("/circuit-breaker/sampling/{id}")
     @Operation(summary = "Circuit Breaker Example", 
                description = "Demonstrates circuit breaker pattern. Try with ID > 100 to trigger failures.")
-    public ResponseEntity<?> testCircuitBreaker(@PathVariable Long id) {
+    public ResponseEntity<?> testCircuitBreaker(@PathVariable String id) {
         try {
             Map<String, Object> result = resilientService.getSamplingData(id);
             return ResponseEntity.ok(result);
@@ -71,7 +71,7 @@ public class ResilienceController {
     @PostMapping("/retry/evaluation/{id}")
     @Operation(summary = "Retry Example", 
                description = "Demonstrates automatic retry on transient failures")
-    public ResponseEntity<?> testRetry(@PathVariable Long id) {
+    public ResponseEntity<?> testRetry(@PathVariable String id) {
         try {
             Map<String, Object> result = resilientService.processEvaluation(id);
             return ResponseEntity.ok(result);
@@ -93,7 +93,7 @@ public class ResilienceController {
     @GetMapping("/timeout/data/{id}")
     @Operation(summary = "Timeout Example", 
                description = "Demonstrates timeout handling. Even IDs timeout (>3s), odd IDs succeed (<1s)")
-    public CompletableFuture<ResponseEntity<Map<String, Object>>> testTimeout(@PathVariable Long id) {
+    public CompletableFuture<ResponseEntity<Map<String, Object>>> testTimeout(@PathVariable String id) {
         return resilientService.getDataWithTimeout(id)
                 .thenApply(ResponseEntity::ok)
                 .exceptionally(ex -> {
@@ -146,7 +146,7 @@ public class ResilienceController {
     @PostMapping("/combined/{id}")
     @Operation(summary = "Combined Patterns", 
                description = "Demonstrates Circuit Breaker + Retry + Bulkhead working together")
-    public ResponseEntity<?> testCombinedPatterns(@PathVariable Long id) {
+    public ResponseEntity<?> testCombinedPatterns(@PathVariable String id) {
         try {
             Map<String, Object> result = resilientService.complexOperation(id);
             return ResponseEntity.ok(result);

@@ -1,23 +1,9 @@
 spring:
   application:
     name: sampling-service
-  
-  # Database Configuration
-  datasource:
-    url: jdbc:h2:file:./data/samplingdb
-    driver-class-name: org.h2.Driver
-    username: sa
-    password:
-  
-  jpa:
-    hibernate:
-      ddl-auto: update
-    show-sql: true
-  
-  h2:
-    console:
-      enabled: true
-      path: /h2-console
+  data:
+    mongodb:
+      uri: mongodb://mongodb:27017/samplingdb
   
   # Kafka Configuration (Optimized for High Throughput)
   kafka:
@@ -44,6 +30,10 @@ spring:
 
 server:
   port: 8082
+
+# Audit Configuration
+audit:
+  enabled: true
 
 # Swagger Configuration
 springdoc:

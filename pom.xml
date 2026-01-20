@@ -25,6 +25,7 @@
 		<module>evidence-service</module>
 		<module>remediation-service</module>
 		<module>jira-service</module>
+		<module>audit-service</module>
 		<module>common</module>
 		<module>transfer-service</module>
 	</modules>

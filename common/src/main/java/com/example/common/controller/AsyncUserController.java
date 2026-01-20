@@ -5,7 +5,6 @@ import com.example.common.dto.UserCreateRequest;
 import com.example.common.dto.UserDTO;
 import com.example.common.service.AsyncUserService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -112,7 +111,7 @@ public class AsyncUserController {
      * GET user by ID - Combined IO + CPU
      */
     @GetMapping("/{id}")
-    public CompletableFuture<ResponseEntity<ApiResponse<UserDTO>>> getUserByIdAsync(@PathVariable Long id) {
+    public CompletableFuture<ResponseEntity<ApiResponse<UserDTO>>> getUserByIdAsync(@PathVariable String id) {
         return asyncUserService.getUserByIdWithProcessing(id)
             .thenApply(user -> 
                 ResponseEntity.ok(ApiResponse.success("User retrieved successfully", user))
@@ -164,7 +163,7 @@ public class AsyncUserController {
      */
     @PutMapping("/{id}")
     public CompletableFuture<ResponseEntity<ApiResponse<UserDTO>>> updateUserAsync(
-            @PathVariable Long id,
+            @PathVariable String id,
             @Valid @RequestBody UserCreateRequest request) {
         return asyncUserService.updateUserAsync(id, request)
             .thenApply(user -> 
@@ -180,7 +179,7 @@ public class AsyncUserController {
      * DELETE user - IO task
      */
     @DeleteMapping("/{id}")
-    public CompletableFuture<ResponseEntity<ApiResponse<Void>>> deleteUserAsync(@PathVariable Long id) {
+    public CompletableFuture<ResponseEntity<ApiResponse<Void>>> deleteUserAsync(@PathVariable String id) {
         return asyncUserService.deleteUserAsync(id)
             .<ResponseEntity<ApiResponse<Void>>>thenApply(v -> 
                 ResponseEntity.ok(ApiResponse.success("User deleted successfully", null))
@@ -197,7 +196,7 @@ public class AsyncUserController {
      */
     @PostMapping("/batch")
     public CompletableFuture<ResponseEntity<ApiResponse<List<UserDTO>>>> processBatchAsync(
-            @RequestBody List<Long> userIds) {
+            @RequestBody List<String> userIds) {
         return asyncUserService.processBatchUsers(userIds)
             .thenApply(users -> 
                 ResponseEntity.ok(ApiResponse.success("Batch processed successfully", users))
@@ -213,7 +212,7 @@ public class AsyncUserController {
      * Demonstrates CPU-intensive operations on retrieved data
      */
     @GetMapping("/{id}/processed")
-    public CompletableFuture<ResponseEntity<ApiResponse<UserDTO>>> getUserWithProcessingAsync(@PathVariable Long id) {
+    public CompletableFuture<ResponseEntity<ApiResponse<UserDTO>>> getUserWithProcessingAsync(@PathVariable String id) {
         return asyncUserService.processUserWithComplexLogic(id)
             .thenApply(user -> 
                 ResponseEntity.ok(ApiResponse.success("User processed successfully", user))

@@ -12,8 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Demo service to showcase AI agents without Kafka
@@ -168,7 +166,7 @@ public class AgentDemoService {
      * User demo request
      */
     public static class UserDemoRequest {
-        private Long userId;
+        private String userId;
         private String username;
         private String email;
         private String firstName;
@@ -176,7 +174,7 @@ public class AgentDemoService {
         
         public UserDemoRequest() {}
         
-        public UserDemoRequest(Long userId, String username, String email, String firstName, String lastName) {
+        public UserDemoRequest(String userId, String username, String email, String firstName, String lastName) {
             this.userId = userId;
             this.username = username;
             this.email = email;
@@ -185,8 +183,8 @@ public class AgentDemoService {
         }
         
         // Getters and Setters
-        public Long getUserId() { return userId; }
-        public void setUserId(Long userId) { this.userId = userId; }
+        public String getUserId() { return userId; }
+        public void setUserId(String userId) { this.userId = userId; }
         
         public String getUsername() { return username; }
         public void setUsername(String username) { this.username = username; }

@@ -34,7 +34,7 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
-    public UserDTO getUserById(Long id) {
+    public UserDTO getUserById(String id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
         return EntityMapper.toDTO(user);
@@ -76,7 +76,7 @@ public class UserService {
         return EntityMapper.toDTO(savedUser);
     }
 
-    public UserDTO updateUser(Long id, UserCreateRequest request) {
+    public UserDTO updateUser(String id, UserCreateRequest request) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
 
@@ -88,7 +88,7 @@ public class UserService {
         return convertToDTO(updatedUser);
     }
 
-    public void deleteUser(Long id) {
+    public void deleteUser(String id) {
         if (!userRepository.existsById(id)) {
             throw new RuntimeException("User not found with id: " + id);
         }

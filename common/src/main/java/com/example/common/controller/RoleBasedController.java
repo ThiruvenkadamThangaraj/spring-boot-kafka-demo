@@ -53,7 +53,7 @@ public class RoleBasedController {
     @DeleteMapping("/admin/users/{id}")
     @Operation(summary = "Delete User", description = "Delete user - ADMIN only")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<?> deleteUser(@PathVariable Long id) {
+    public ResponseEntity<?> deleteUser(@PathVariable String id) {
         return ResponseEntity.ok(Map.of(
             "message", "User deleted successfully",
             "userId", id,
@@ -88,7 +88,7 @@ public class RoleBasedController {
     @PostMapping("/operator/evaluation/{id}/process")
     @Operation(summary = "Process Evaluation", description = "Process evaluation - OPERATOR or ADMIN")
     @PreAuthorize("hasAnyRole('OPERATOR', 'ADMIN')")
-    public ResponseEntity<?> processEvaluation(@PathVariable Long id) {
+    public ResponseEntity<?> processEvaluation(@PathVariable String id) {
         return ResponseEntity.ok(Map.of(
             "message", "Evaluation processed successfully",
             "evaluationId", id,
@@ -100,7 +100,7 @@ public class RoleBasedController {
     @PutMapping("/operator/sampling/{id}/approve")
     @Operation(summary = "Approve Sampling", description = "Approve sampling request - OPERATOR or ADMIN")
     @PreAuthorize("hasAnyRole('OPERATOR', 'ADMIN')")
-    public ResponseEntity<?> approveSampling(@PathVariable Long id) {
+    public ResponseEntity<?> approveSampling(@PathVariable String id) {
         return ResponseEntity.ok(Map.of(
             "message", "Sampling approved",
             "samplingId", id,
@@ -135,7 +135,7 @@ public class RoleBasedController {
     @PostMapping("/reviewer/items/{id}/review")
     @Operation(summary = "Review Item", description = "Review an item - REVIEWER, OPERATOR, or ADMIN")
     @PreAuthorize("hasAnyRole('REVIEWER', 'OPERATOR', 'ADMIN')")
-    public ResponseEntity<?> reviewItem(@PathVariable Long id, @RequestBody ReviewRequest request) {
+    public ResponseEntity<?> reviewItem(@PathVariable String id, @RequestBody ReviewRequest request) {
         return ResponseEntity.ok(Map.of(
             "message", "Item reviewed successfully",
             "itemId", id,
@@ -200,7 +200,7 @@ public class RoleBasedController {
     
     @GetMapping("/items/{id}")
     @Operation(summary = "Get Item", description = "Anyone can view, but only owner or ADMIN can see sensitive data")
-    public ResponseEntity<?> getItem(@PathVariable Long id) {
+    public ResponseEntity<?> getItem(@PathVariable String id) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         boolean isAdmin = auth.getAuthorities().stream()
                 .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
@@ -222,7 +222,7 @@ public class RoleBasedController {
     @PutMapping("/items/{id}")
     @Operation(summary = "Update Item", description = "OPERATOR and ADMIN can update items")
     @PreAuthorize("hasAnyRole('OPERATOR', 'ADMIN')")
-    public ResponseEntity<?> updateItem(@PathVariable Long id, @RequestBody Map<String, Object> updates) {
+    public ResponseEntity<?> updateItem(@PathVariable String id, @RequestBody Map<String, Object> updates) {
         return ResponseEntity.ok(Map.of(
             "message", "Item updated successfully",
             "itemId", id,

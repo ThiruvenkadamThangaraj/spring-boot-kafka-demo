@@ -136,7 +136,7 @@ public class AsyncUserService {
     /**
      * IO Task: Get user by ID
      */
-    public CompletableFuture<User> getUserByIdAsync(Long id) {
+    public CompletableFuture<User> getUserByIdAsync(String id) {
         return CompletableFuture.supplyAsync(() -> {
             return userRepository.findById(id)
                     .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
@@ -146,7 +146,7 @@ public class AsyncUserService {
     /**
      * Combined: Get user by ID and convert to DTO
      */
-    public CompletableFuture<UserDTO> getUserByIdWithProcessing(Long id) {
+    public CompletableFuture<UserDTO> getUserByIdWithProcessing(String id) {
         return getUserByIdAsync(id)
                 .thenApplyAsync(EntityMapper::toDTO, cpuExecutor);
     }
@@ -240,7 +240,7 @@ public class AsyncUserService {
      * Update user with async processing
      */
     @Transactional
-    public CompletableFuture<UserDTO> updateUserAsync(Long id, UserCreateRequest request) {
+    public CompletableFuture<UserDTO> updateUserAsync(String id, UserCreateRequest request) {
         return getUserByIdAsync(id)
             // CPU: Update user fields
             .thenApplyAsync(user -> {
@@ -263,7 +263,7 @@ public class AsyncUserService {
      * Delete user async
      */
     @Transactional
-    public CompletableFuture<Void> deleteUserAsync(Long id) {
+    public CompletableFuture<Void> deleteUserAsync(String id) {
         return CompletableFuture.runAsync(() -> {
             if (!userRepository.existsById(id)) {
                 throw new RuntimeException("User not found with id: " + id);
@@ -275,7 +275,7 @@ public class AsyncUserService {
     /**
      * CPU-intensive task example: Process user data with complex calculations
      */
-    public CompletableFuture<UserDTO> processUserWithComplexLogic(Long id) {
+    public CompletableFuture<UserDTO> processUserWithComplexLogic(String id) {
         return getUserByIdAsync(id)
             .thenApplyAsync(user -> {
                 // Simulate CPU-intensive processing
@@ -292,7 +292,7 @@ public class AsyncUserService {
     /**
      * Batch processing with parallel execution
      */
-    public CompletableFuture<List<UserDTO>> processBatchUsers(List<Long> userIds) {
+    public CompletableFuture<List<UserDTO>> processBatchUsers(List<String> userIds) {
         // Fetch all users in parallel (IO)
         List<CompletableFuture<User>> futures = userIds.stream()
             .map(this::getUserByIdAsync)

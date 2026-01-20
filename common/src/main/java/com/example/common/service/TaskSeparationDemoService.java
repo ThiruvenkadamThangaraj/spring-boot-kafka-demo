@@ -270,11 +270,11 @@ public class TaskSeparationDemoService {
         }
     }
 
+    @SuppressWarnings("unused")
     private void simulateCPUWork() {
         // Simulate CPU-intensive work
-        double result = 0;
         for (int i = 0; i < 10000; i++) {
-            result += Math.sqrt(i) * Math.sin(i);
+            double temp = Math.sqrt(i) * Math.sin(i);
         }
     }
 }

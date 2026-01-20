@@ -39,11 +39,14 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            // Disable CSRF for stateless REST APIs
+            // Disable CSRF for stateless REST APIs (and allow H2 console frames)
             .csrf(csrf -> csrf.disable())
             
             // Disable CORS (configure properly in production)
             .cors(cors -> cors.disable())
+            
+            // Allow H2 console to be embedded in frames
+            .headers(headers -> headers.frameOptions(frame -> frame.disable()))
             
             // Exception handling
             .exceptionHandling(exception -> exception
@@ -63,7 +66,11 @@ public class SecurityConfig {
                             "/actuator/info",
                             "/swagger-ui/**",
                             "/v3/api-docs/**",
-                            "/swagger-ui.html"
+                            "/swagger-ui.html",
+                            "/api-docs/**",
+                            "/swagger-resources/**",
+                            "/webjars/**",
+                            "/h2-console/**"
                     ).permitAll()
                     
                     // Admin endpoints - require ADMIN role only

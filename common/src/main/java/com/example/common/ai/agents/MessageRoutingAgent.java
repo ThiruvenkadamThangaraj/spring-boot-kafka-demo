@@ -58,7 +58,6 @@ public class MessageRoutingAgent extends BaseAgent {
         // This could be enhanced with ML models for pattern learning
         
         String messageType = request.getMessageType();
-        int priority = request.getPriority();
         
         // Simple rule-based routing (can be enhanced)
         if (messageType.contains("evaluation")) {

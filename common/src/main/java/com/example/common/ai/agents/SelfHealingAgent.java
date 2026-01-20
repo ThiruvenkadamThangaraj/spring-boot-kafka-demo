@@ -5,7 +5,6 @@ import com.example.common.ai.BaseAgent;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -22,8 +21,6 @@ public class SelfHealingAgent extends BaseAgent {
     
     // Thresholds
     private static final int FAILURE_THRESHOLD = 3;
-    private static final int HEALTH_CHECK_WINDOW_MINUTES = 5;
-    private static final double CRITICAL_HEALTH_THRESHOLD = 0.3;
     
     public SelfHealingAgent() {
         super("SelfHealingAgent");

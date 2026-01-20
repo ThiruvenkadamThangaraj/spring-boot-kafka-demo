@@ -24,7 +24,6 @@ public class AnomalyDetectionAgent extends BaseAgent {
     
     // Thresholds
     private static final int MAX_EVENTS_PER_EMAIL_PER_MINUTE = 5;
-    private static final int MAX_EVENTS_FROM_SAME_IP_PER_MINUTE = 10;
     private static final double ANOMALY_THRESHOLD = 0.7;
     
     public AnomalyDetectionAgent() {
@@ -232,18 +231,16 @@ public class AnomalyDetectionAgent extends BaseAgent {
      */
     private static class UserEventStats {
         private int eventCount = 0;
-        private LocalDateTime firstSeen = LocalDateTime.now();
-        private LocalDateTime lastSeen = LocalDateTime.now();
         
         public void incrementCount() {
             eventCount++;
         }
         
         public void setLastSeen(LocalDateTime lastSeen) {
-            this.lastSeen = lastSeen;
+            // Method kept for potential future use
         }
         
-        public int getEventCount() {
+        public int getCount() {
             return eventCount;
         }
     }
