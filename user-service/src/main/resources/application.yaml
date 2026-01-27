@@ -24,7 +24,7 @@ spring:
     name: user-service
   data:
     mongodb:
-      uri: mongodb://mongodb:27017/userdb
+      uri: mongodb://localhost:27017/userdb
   
   # Kafka Configuration (Optimized for High Throughput)
   kafka:

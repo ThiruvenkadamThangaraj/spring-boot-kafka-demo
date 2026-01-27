@@ -1,4 +1,8 @@
+
 package com.example.userservice.controller;
+
+import io.swagger.v3.oas.annotations.Operation;
+import javax.annotation.PostConstruct;
 
 import com.example.userservice.model.Employee;
 import com.example.userservice.service.EmployeeService;
@@ -13,6 +17,11 @@ import java.util.List;
 public class EmployeeController {
     private final EmployeeService employeeService;
 
+    @PostConstruct
+    public void init() {
+        System.out.println("EmployeeController loaded!");
+    }
+
     @Autowired
     public EmployeeController(EmployeeService employeeService) {
         this.employeeService = employeeService;
@@ -24,6 +33,7 @@ public class EmployeeController {
         return new ResponseEntity<>(savedEmployee, HttpStatus.CREATED);
     }
 
+    @Operation(summary = "Get all employees")
     @GetMapping
     public ResponseEntity<List<Employee>> getAllEmployees() {
         List<Employee> employees = employeeService.getAllEmployees();
