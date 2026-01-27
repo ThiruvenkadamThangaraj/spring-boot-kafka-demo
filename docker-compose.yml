@@ -1,6 +1,20 @@
+  # (removed duplicate user-service block)
 version: '3.8'
 
 services:
+  user-service:
+    build:
+      context: ./user-service
+      dockerfile: Dockerfile
+    container_name: user-service
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - microservices-network
+    depends_on:
+      - mongodb
   evaluation-service:
     build:
       context: ./evaluation-service

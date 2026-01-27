@@ -1,0 +1,21 @@
+version: '3.8'
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    networks:
+      - usernet
+  user-service:
+    image: user-service:latest
+    container_name: user-service
+    ports:
+      - "8087:8080"
+    depends_on:
+      - mongodb
+    networks:
+      - usernet
+networks:
+  usernet:
+    driver: bridge

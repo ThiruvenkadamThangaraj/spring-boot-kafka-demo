@@ -47,28 +47,16 @@
 
 ---
 
-### Real Kafka Producer Implementation
-
 **From my EventPublisher.java:**
 ```java
-@Service
-public class EventPublisher {
     private static final String USER_CREATED_TOPIC = "user-created-events";
 
-    @Autowired
-    private KafkaTemplate<String, UserCreatedEvent> kafkaTemplate;
 
     @Async  // Non-blocking - returns immediately
-    public void publishUserCreatedEvent(UserCreatedEvent event) {
-        // Partition by username  same user always goes to same partition  ordering guaranteed
         kafkaTemplate.send(USER_CREATED_TOPIC, event.getUsername(), event);
         System.out.println("ðŸ“¤ Event published asynchronously: " + event.getUsername());
-    }
-}
 ```
 
-**UserService calls it:**
-```java
 @Service
 public class UserService {
     @Autowired
@@ -985,7 +973,8 @@ public class BlockingQueue<T> {
     private Queue<T> queue = new LinkedList<>();
     private int capacity;
     
-    public BlockingQueue(int capacity) {
+    public 
+    (int capacity) {
         this.capacity = capacity;
     }
     
@@ -1681,7 +1670,7 @@ public class UserService {
 }
 
 public class EmailService {
-    public void sendWelcome(User user) { }
+    public void sendWelcomeEmail(User user) { }
 }
 
 public class PasswordEncoder {
@@ -2087,7 +2076,7 @@ public class EvaluationServiceApplication {
 - Embedded servers (Tomcat, Jetty)
 - Production-ready features (Actuator, Metrics)
 
-**âŒ Traditional Spring Configuration:**
+**Traditional Spring Configuration:**
 ```xml
 <!-- web.xml -->
 <servlet>
